@@ -1,0 +1,105 @@
+<zk>
+	<style>
+		.popup-content{ width:80%; left:10% !important; top:10%
+		!important; }
+		.z-hlayout-inner{display:block !important;}
+		.bt-addnew{margin:20px 0;}
+		.btn-ctrl{margin:0 10px;}
+	</style>
+	<window apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm')@init('greenglobal.longht.MyViewModel')"
+		validationMessages="@id('vmsgs')" vflex="1">
+		<hlayout>
+			
+			<grid>
+				<columns>
+					<column label="Key"></column>
+					<column label="Category"></column>
+					<column label="DateStart"></column>
+					<column label="DateEnd"></column>
+					<column label="Ctrl"></column>
+				</columns>
+				<rows>
+					<row>
+						<textbox value="@bind(vm.postSearch.key)"></textbox>
+						<combobox value="All"
+							model="@load(vm.categoryListModel)"
+							selectedItem="@bind(vm.postSearch.category)">
+							<template name="model">
+								<comboitem label="@load(each.name)"></comboitem>
+							</template>
+							<comboitem label="All" id="true"></comboitem>
+						</combobox>
+						<datebox id="db1" cols="12" format="yyyy-MM-dd"
+							value="@bind(vm.postSearch.datestart)">
+						</datebox>
+						<datebox id="db2" cols="12" format="yyyy-MM-dd"
+							value="@bind(vm.postSearch.dateend)">
+						</datebox>
+						<button label="Search"
+							onClick="@command('searchPost')">
+						</button>
+					</row>
+				</rows>
+			</grid>
+			<button sclass="bt-addnew" label="Add New Post" onClick='addPostP.open(self)'></button>
+			
+		</hlayout>
+		
+		<grid model="@load(vm.postListModel)" mold="paging"
+			pageSize="5">
+			<columns>
+				<column label="STT"></column>
+				<column label="ID"></column>
+				<column label="Title"></column>
+				<column label="Category"></column>
+				<column label="Date"></column>
+				<column label="Ctrl"></column>
+			</columns>
+			<template name="model" status="postS">
+				<row>
+					<label value="@load(postS.index+1)"></label>
+					<label value="@load(each.id)"></label>
+					<label value="@load(each.title)"></label>
+					<label value="@load(each.category.name)"></label>
+					<label value="@load(each.date)"></label>
+					<cell>
+						<button sclass="btn-ctrl" label="Delete"
+						onClick="@command('deletePost',post=each)">
+						</button>
+						<button sclass="btn-ctrl" label="Edit" onClick="@command('editPost',post=each)">
+						</button>
+					</cell>
+					
+				</row>
+			</template>
+		</grid>
+		<popup sclass="popup-content" id="addPostP">
+			<grid>
+				<columns>
+					<column>Title</column>
+					<column>Content</column>
+
+					<column>Category</column>
+					<column>Ctrl</column>
+				</columns>
+				<rows>
+					<row>
+						<textbox value="@bind(vm.post.title)"></textbox>
+						<textbox value="@bind(vm.post.content)"></textbox>
+
+						<combobox model="@load(vm.categoryListModel)"
+							selectedItem="@bind(vm.post.category)">
+							<template name="model">
+								<comboitem label="@load(each.name)"></comboitem>
+							</template>
+						</combobox>
+						<button label="Add"
+							onClick="@command('addPost')">
+						</button>
+					</row>
+				</rows>
+			</grid>
+		</popup>
+	</window>
+</zk>

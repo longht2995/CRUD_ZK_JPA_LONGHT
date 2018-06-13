@@ -1,0 +1,60 @@
+<zk>
+	<style>
+		.popup-content{
+			width:80%;
+			left:10% !important;
+			top:10% !important;
+		}
+	</style>
+	<window apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm')@init('greenglobal.longht.MyViewModel')"
+		validationMessages="@id('vmsgs')" vflex="1">
+		<hlayout>
+			<button label="Add New Post" onClick='addPost.open(self)'></button>
+		</hlayout>
+		<grid model="@load(vm.postListModel)">
+			<columns>
+				<column label="STT"></column>
+				<column label="ID"></column>
+				<column label="Title"></column>
+				
+				<column label="Date"></column>
+				<column label="Ctrl"></column>
+			</columns>
+			<template name="model" status="postS">
+				<row>
+					<label value="@load(postS.index)"></label>
+					<label value="@load(each.id)"></label>
+					<label value="@load(each.title)"></label>
+					<label value="@load(each.category.name)"></label>
+					<label value="@load(each.date)"></label>
+					<button label="Edit"></button>
+				</row>
+			</template>
+		</grid>
+		<popup sclass="popup-content" id="addPost">
+			<grid>
+				<auxhead>
+					<auxheader>Add New Post</auxheader>
+				</auxhead>
+				<columns>
+					<column>Title</column>
+					<column>Content</column>
+					<column>Date</column>
+					<column>Category</column>
+					<column>Ctrl</column>
+				</columns>
+				<rows>
+					<row>
+						<textbox></textbox>
+						<textbox></textbox>
+						<textbox></textbox>
+						<textbox></textbox>
+						<button label="Add"></button>
+					</row>
+					
+				</rows>
+			</grid>
+		</popup>
+	</window>
+</zk>
